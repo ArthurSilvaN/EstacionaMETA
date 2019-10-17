@@ -22,6 +22,7 @@
 	#metaTitulo {
 			color: 	#80BA8E;
 			
+			
 		}
 	.qualidades {
 		color: #80BA8E;
@@ -1024,5 +1025,5 @@
 			border: none;
 			margin: 0;
 			font-weight: 300;
-			color: rgba(255,255,255,.6);
+			color: rgb(255, 255, 255);
 		}	
