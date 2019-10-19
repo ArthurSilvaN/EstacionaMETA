@@ -129,11 +129,6 @@
 			margin: 1.5em 0 0 0;
 			padding: 0 0 0.5em 0;
 		}
-		
-	footer
-	{
-		margin-top: 1em;
-	}
 
 	br.clear
 	{
@@ -169,6 +164,9 @@
 		.row > article
 		{
 			margin-bottom: 0;
+		}
+		.row{
+			padding: 2em;
 		}
 
 	/* Images */
