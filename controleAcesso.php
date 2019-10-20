@@ -1,12 +1,7 @@
 <!DOCTYPE HTML>
-<!--
-	Linear by TEMPLATED
-    templated.co @templatedco
-    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
 <html>
 	<head>
-		<title>Linear by TEMPLATED</title>
+		<title>Controle de Acesso</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -15,11 +10,11 @@
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-panels.min.js"></script>
 		<script src="js/init.js"></script>
+		<link rel="icon" href="images/iconSite.png">
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-desktop.css" />
-
 		</noscript>
 	</head>
 	<body>
@@ -30,10 +25,10 @@
 				<!-- Nav -->
 				<nav id="nav">
 					<ul>
-						<li><a href="index.html">Homepage</a></li>
-						<li><a href="left-sidebar.html">Left Sidebar</a></li>
-						<li class="active"><a href="right-sidebar.html">Right Sidebar</a></li>
-						<li><a href="no-sidebar.html">No Sidebar</a></li>
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="mapa.html">Vagas</a></li>
+						<li><a href="controleAcesso.php">Controle</a></li>
+						<li><a href="diarioBordo.html">Diário</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -42,7 +37,6 @@
 				<!-- Logo -->
 				<div id="logo">
 					<h1><a href="#">Controle de Acesso</a></h1>
-					<span class="tag">By TEMPLATED</span>
 				</div>
 			</div>
 		</div>
@@ -97,5 +91,6 @@
   	color: white;
 	}
 </style>
+
 	</body>
 </html>
