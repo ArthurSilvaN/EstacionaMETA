@@ -58,11 +58,9 @@
 						<th>Saida:</th>
 				<?php
 				include_once "php/bd.inc.php";
-				$bd = new BancoDeDados("localhost");
-				$bd->setUsuario("root");
-				$bd->setSenha("");
+				  $conexao = mysqli_connect("remotemysql.com","mkhm1crcKZ","oM31TDcS3H", "mkhm1crcKZ", "3306");
 				$sql = "select nome,entrada,saida from ctrlestacionamento";
-				$resultado = mysqli_query($bd ->conectar("dadosRFID"),$sql);
+				$resultado = mysqli_query($conexao,$sql);
 				if(mysqli_num_rows($resultado) > 0){
 					while($linha = mysqli_fetch_assoc($resultado)){
 						echo "<tr><td>".$linha['nome']."</td><td>".$linha['entrada']."</td><td>";
