@@ -1,3 +1,7 @@
+<?php
+session_start();
+include_once 'php/conexao.php';
+ ?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -5,6 +9,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="css/personalizado.css" />
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="js/skel.min.js"></script>
@@ -44,6 +49,40 @@
 
 	<!-- Main -->
 		<div id="main">
+			<div id="controleacesso">
+				<form action="#" method="post">
+					<select name="estacionamentos">
+				<?php
+				if($conexao){
+					$sql = "SELECT * FROM estacionamentos WHERE dono=?";
+					$stmt = mysqli_stmt_init($conexao);
+					//checa se é possivel executar declaracao
+					if(mysqli_stmt_prepare($stmt,$sql)){
+						mysqli_stmt_bind_param($stmt,"s",$_SESSION['usuarioNome']);
+						mysqli_stmt_execute($stmt);
+						mysqli_stmt_store_result($stmt);
+						//checa se estacionamento ja havia sido cadastrado
+						if(mysqli_stmt_num_rows($stmt) > 0){
+							 $stmt = mysqli_stmt_init($conexao);
+								if(mysqli_stmt_prepare($stmt,$sql)){
+									mysqli_stmt_bind_param($stmt,"s",$_SESSION['usuarioNome']);
+									mysqli_stmt_execute($stmt);
+									$resultado = mysqli_stmt_get_result($stmt);
+								 while($linha = mysqli_fetch_assoc($resultado)){
+									 echo "<option value='".$linha['lugar']."'>".$linha['lugar']."</option>";
+								}
+							}
+						} else {
+							echo "<option>Você não tem nenhum estacionamento cadastrado</option>";
+					}
+				}
+			}
+
+				 ?>
+			 </select>
+			 <input type="submit" id="buscar" name="buscarEstacionamento" value="🔍">
+		 </form>
+			</div>
 			<div id="tabela">
 				<table>
 					<tr>
@@ -51,46 +90,45 @@
 						<th>Entrada:</th>
 						<th>Saida:</th>
 				<?php
-				include_once "php/bd.inc.php";
-				  $conexao = mysqli_connect("remotemysql.com","mkhm1crcKZ","oM31TDcS3H", "mkhm1crcKZ", "3306");
-				$sql = "select nome,entrada,saida from ctrlestacionamento";
-				$resultado = mysqli_query($conexao,$sql);
-				if(mysqli_num_rows($resultado) > 0){
-					while($linha = mysqli_fetch_assoc($resultado)){
-						echo "<tr><td>".$linha['nome']."</td><td>".$linha['entrada']."</td><td>";
-						if($linha['saida']!=null){
-							echo $linha['saida']."</td></tr>";
-						} else {
-							echo "Não houve saída</td></tr>";
-						}
+				if(isset($_POST['buscarEstacionamento'])){
+					if($conexao){
+						$sql = "SELECT * FROM ctrlestacionamento WHERE lugar=?";
+						$stmt = mysqli_stmt_init($conexao);
+						//checa se é possivel executar declaracao
+						if(mysqli_stmt_prepare($stmt,$sql)){
+							mysqli_stmt_bind_param($stmt,"s",$_POST['estacionamentos']);
+							mysqli_stmt_execute($stmt);
+							mysqli_stmt_store_result($stmt);
+							//checa se estacionamento ja havia sido cadastrado
+							if(mysqli_stmt_num_rows($stmt) > 0){
+								echo "<ul>";
+								 $stmt = mysqli_stmt_init($conexao);
+									if(mysqli_stmt_prepare($stmt,$sql)){
+										mysqli_stmt_bind_param($stmt,"s",$_POST['estacionamentos']);
+										mysqli_stmt_execute($stmt);
+										$resultado = mysqli_stmt_get_result($stmt);
+									 while($linha = mysqli_fetch_assoc($resultado)){
+										 echo "<tr><td>".$linha['nome']."</td><td>".$linha['entrada']."</td><td>";
+										 if($linha['saida']!=null){
+										   echo $linha['saida']."</td></tr>";
+										 } else {
+										   echo "Não houve saída</td></tr>";
+										 }
+									}
 
+								}
+							} else {
+								echo "<p style='text-align:center'>Ainda não há dados para esse Estacionamento.</p>";
+						}
+					}
 					}
 				}
-				echo "</table>";
 				 ?>
+				 	</table>
 			</div>
+
 		</div>
 
-		<style>
-		table {
-  	border-collapse: collapse;
-  	width: 80%;
-		margin-left: 10%;
-
-	}
-
-	th, td {
-  	text-align: left;
-  	padding: 8px;
-	}
-
-	tr:nth-child(even){background-color: #f2f2f2}
-
-	th {
-  	background-color: #4CAF50;
-  	color: white;
-	}
-</style>
 
 	</body>
 </html>
