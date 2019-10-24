@@ -9,7 +9,8 @@ include_once 'php/conexao.php';
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-    <link rel="stylesheet" href="css/personalizado.css" />
+		<link rel="stylesheet" href="css/fadeIn.css">
+        <link rel="stylesheet" href="css/personalizado.css"/>
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="js/skel.min.js"></script>
@@ -33,19 +34,20 @@ include_once 'php/conexao.php';
 				<nav id="nav">
 					<ul>
 						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="mapa.html">Vagas</a></li>
+						<li><a href="mapa.php">Vagas</a></li>
 						<li><a href="controleAcesso.php">Controle</a></li>
 						<li><a href="diarioBordo.html">Diário</a></li>
+						<li><a href="login.php">Perfil</a></li>
 					</ul>
 				</nav>
 			</div>
 			<div class="container">
 
-				<!-- Logo -->
-				<div id="logo">
-
-				</div>
+			<!-- Logo -->
+			<div id="logo">
+				<h1><a>Estaciona<span id="metaTitulo">META</span></a></h1>
 			</div>
+		</div>
 		</div>
 	<!-- Header -->
 
@@ -61,7 +63,7 @@ include_once 'php/conexao.php';
       		echo'  <input name = "usuario" placeholder="Usuario ou Email"><br>';
       		echo'  <input name="senha" type="password" placeholder="Senha"><br>';
       		echo  '<button type="submit" name="logar" class="button button-style1">Login</button>';
-      		echo '  <button class="button button-style1"><a href="cadastro.php">Cadastro</a></button></form>';
+      		echo '  <button type="button" class="button button-style1"><a href="cadastro.php">Cadastro</a></button></form>';
       		echo '</div>';
 				} else {
 					echo '<div id="perfil">';
@@ -98,9 +100,12 @@ include_once 'php/conexao.php';
 					echo '<div class="estacionamentos">';
 					echo '<h1>Cadastrar Estacionamento:</h1>';
 					echo '<form action="php/cadastrarEstacionamento.php" method="post">';
-					echo'  <input name="lugar" placeholder="Nome do Estabelecimento"><br>';
+					echo'  <input id="inptLogin" name="lugar" placeholder="Nome do Estabelecimento"><br>';
 				  echo  '<button type="submit" name="cadastrarEstacionamento" class="button button-style1">Cadastrar</button></form>';
 					echo '</div>';
+					echo '<form method="post">';
+					echo  '<button id="sair" type="submit" name="sair" class="button button-style1">Sair</button>';
+					echo '</form>';
 					echo '</div>';
 				}
 			}
@@ -109,9 +114,12 @@ include_once 'php/conexao.php';
         if(isset($_GET['error']) ){
           echo "<p id = 'erro' style='text-align:center;font-size:20px'><strong>Erro: </strong>".$_GET['error']."</p>";
         }
+        if(isset($_POST['sair']) ){
+            session_destroy();
+        }
       ?>
 		</div>
-
+        
 
 
 	</body>

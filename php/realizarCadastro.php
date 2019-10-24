@@ -28,7 +28,7 @@ if(isset($_POST['cadastrar'])){
                 mysqli_stmt_bind_param($stmt,"sss",$usuario,$email,password_hash($senha, PASSWORD_DEFAULT));
                 mysqli_stmt_execute($stmt);
                 mysqli_stmt_store_result($stmt);
-                header("Location: ../cadastro.php?cadastro=sucesso");
+                header("Location: ../login.php");
                 exit();
               } else {
                 header("Location: ../cadastro.php?error=errosql&nome=".$usuario."&email=".$email);

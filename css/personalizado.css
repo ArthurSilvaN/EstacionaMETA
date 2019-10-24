@@ -76,7 +76,7 @@ color: white;
 .logincadastro input {
   margin-top: 0.5%;
   width: 40%;
-  align-items:
+
 
 }
 .logincadastro button {
@@ -85,4 +85,12 @@ color: white;
 .logincadastro button a{
   color: white;
   text-decoration: none;
+}
+#sair {
+    margin: auto;
+    display: block;
+    margin-top: 3em;
+    width: 30%;
+    max-width: 500px;
+    background-color: #ce2828d4;
 }

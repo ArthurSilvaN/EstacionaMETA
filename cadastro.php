@@ -28,9 +28,10 @@
 				<nav id="nav">
 					<ul>
 						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="mapa.html">Vagas</a></li>
+						<li><a href="mapa.php">Vagas</a></li>
 						<li><a href="controleAcesso.php">Controle</a></li>
 						<li><a href="diarioBordo.html">Diário</a></li>
+						<li><a href="login.php">Perfil</a></li>
 					</ul>
 				</nav>
 			</div>

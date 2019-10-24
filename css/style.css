@@ -25,8 +25,12 @@ body {
 
 #metaTitulo {
 	color: #80BA8E;
+}
 
-
+#inptLogin{
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
 }
 
 .qualidades {
@@ -128,8 +132,6 @@ table {
 header {
 	margin-bottom: 1.6em;
 }
-
-header h2 {}
 
 header .byline {
 	display: block;

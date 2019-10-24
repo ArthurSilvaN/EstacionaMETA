@@ -1,9 +1,9 @@
 <?php
+    include_once "conexao.php";
   session_start();
     if(isset($_SESSION['usuarioNome']) ){
 
       if(!empty($_POST['lugar'])){
-        $conexao = mysqli_connect("localhost","root","","dados");
         //checa se conexão foi feita com sucesso
         if($conexao){
           $lugar = $_POST['lugar'];

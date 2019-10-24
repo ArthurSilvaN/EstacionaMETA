@@ -9,6 +9,7 @@ include_once 'php/conexao.php';
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="css/fadeIn.css">
 		<link rel="stylesheet" href="css/personalizado.css" />
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -31,9 +32,10 @@ include_once 'php/conexao.php';
 				<nav id="nav">
 					<ul>
 						<li class="active"><a href="index.html">Home</a></li>
-						<li><a href="mapa.html">Vagas</a></li>
+						<li><a href="mapa.php">Vagas</a></li>
 						<li><a href="controleAcesso.php">Controle</a></li>
 						<li><a href="diarioBordo.html">Diário</a></li>
+						<li><a href="login.php">Perfil</a></li>
 					</ul>
 				</nav>
 			</div>

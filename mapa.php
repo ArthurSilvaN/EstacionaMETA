@@ -34,6 +34,7 @@ include_once 'php/conexao.php';
 						<li><a href="mapa.php">Vagas</a></li>
 						<li><a href="controleAcesso.php">Controle</a></li>
 						<li><a href="diarioBordo.html">Diário</a></li>
+						<li><a href="login.php">Perfil</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -55,7 +56,7 @@ include_once 'php/conexao.php';
 				</header>
 				<p>Visualização em tempo real da informação sobre a disponibilidade das vagas do nosso projeto de estacionamento.</p>
 				<div id="controleacesso">
-					<form action="#" method="post">
+					<form  method="post">
 						<select name="estacionamentos">
 					<?php
 					if($conexao){
@@ -105,7 +106,7 @@ include_once 'php/conexao.php';
 					//</section>
 					if(isset($_POST['buscarEstacionamento'])){
 					if($conexao){
-						$sql = "SELECT sensor1,sensor2,sensor3 FROM sensores WHERE lugar=?";
+						$sql = "SELECT sensor1,sensor2,sensor3 FROM sensoresNovo WHERE lugar=?";
 	          $stmt = mysqli_stmt_init($conexao);
 	          //checa se é possivel executar declaracao
 	          if(mysqli_stmt_prepare($stmt,$sql)){
@@ -120,7 +121,7 @@ include_once 'php/conexao.php';
 										$resultado = mysqli_stmt_get_result($stmt);
 									 if($row = mysqli_fetch_assoc($resultado)){
 
-                    if($row['sensor1'] < 5) {
+                    if($row['sensor1'] < 12) {
                         echo '<section class="4u">';
 						    echo '<span><img src="images/Ocupado.jpg"></span>';
 						    echo '<h3>A1</h3>';
@@ -133,7 +134,7 @@ include_once 'php/conexao.php';
 						        echo '<a class="button button-style1">Livre</a>';
 				 	        echo "</section>";
                         }
-                    if($row['sensor2'] < 5) {
+                    if($row['sensor2'] < 12) {
                         echo '<section class="4u">';
 						    echo '<span><img src="images/Ocupado.jpg"></span>';
 						    echo '<h3>A2</h3>';
@@ -146,7 +147,7 @@ include_once 'php/conexao.php';
 						        echo '<a class="button button-style1">Livre</a>';
 				 	        echo "</section>";
                         }
-                    if($row['sensor3'] < 5) {
+                    if($row['sensor3'] < 12) {
                         echo '<section class="4u">';
 						    echo '<span><img src="images/Ocupado.jpg"></span>';
 						    echo '<h3>A3</h3>';

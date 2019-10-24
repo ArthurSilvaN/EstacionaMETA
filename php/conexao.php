@@ -3,9 +3,9 @@
 
 
     $HOST = "localhost";
-    $BANCO = "dados";
-    $USUARIO = "root";
-    $SENHA = "";
+    $BANCO = "u535349949_dados";
+    $USUARIO = "u535349949_root";
+    $SENHA = "Estacionamento0000";
 
     $conexao = mysqli_connect($HOST,$USUARIO,$SENHA,$BANCO);
   try {
