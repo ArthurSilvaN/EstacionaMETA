@@ -3,7 +3,7 @@ session_start();
 include_once 'php/conexao.php';
  ?>
 <!DOCTYPE HTML>
-<html>
+<html lang="pt-br">
 	<head>
 		<title>EstacionaMETA</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -59,31 +59,40 @@ include_once 'php/conexao.php';
 					<form  method="post">
 						<select name="estacionamentos">
 					<?php
-					if($conexao){
-						$sql = "SELECT * FROM estacionamentos";
-						$stmt = mysqli_stmt_init($conexao);
-						//checa se é possivel executar declaracao
-						if(mysqli_stmt_prepare($stmt,$sql)){
-							mysqli_stmt_bind_param($stmt);
-							mysqli_stmt_execute($stmt);
-							mysqli_stmt_store_result($stmt);
-							//checa se estacionamento ja havia sido cadastrado
-							if(mysqli_stmt_num_rows($stmt) > 0){
-								 $stmt = mysqli_stmt_init($conexao);
-									if(mysqli_stmt_prepare($stmt,$sql)){
-										mysqli_stmt_bind_param($stmt,"s",$_SESSION['usuarioNome']);
-										mysqli_stmt_execute($stmt);
-										$resultado = mysqli_stmt_get_result($stmt);
-									 while($linha = mysqli_fetch_assoc($resultado)){
-										 echo "<option value='".$linha['lugar']."'>".$linha['lugar']."</option>";
-									}
-								}
-							} else {
-								echo "<option>Nenhum estacionamento foi cadastrado ainda</option>";
-						}
-					}
-				}
- 			?>
+					if (!$conexao) {
+					    echo "<option>Não foi possivel abrir conexão.</option>";
+					    exit;
+                    }
+
+                    $sql = "SELECT * FROM estacionamentos";
+                    $stmt = mysqli_stmt_init($conexao);
+
+                    //checa se é possivel executar declaracao
+                    if (!mysqli_stmt_prepare($stmt, $sql)) {
+                        exit;
+                    }
+
+                    mysqli_stmt_bind_param($stmt);
+                    mysqli_stmt_execute($stmt);
+                    mysqli_stmt_store_result($stmt);
+
+                    //checa se estacionamento ja havia sido cadastrado
+                    if (mysqli_stmt_num_rows($stmt) <= 0) {
+                        echo "<option>Nenhum estacionamento foi cadastrado ainda</option>";
+                        exit;
+                    }
+
+                    $stmt = mysqli_stmt_init($conexao);
+                    if (mysqli_stmt_prepare($stmt, $sql)) {
+                        mysqli_stmt_bind_param($stmt, "s", $_SESSION['usuarioNome']);
+                        mysqli_stmt_execute($stmt);
+                        $resultado = mysqli_stmt_get_result($stmt);
+                        while ($linha = mysqli_fetch_assoc($resultado)) {
+                            echo "<option value='" . $linha['lugar'] . "'>" . $linha['lugar'] . "</option>";
+                        }
+                    }
+
+                    ?>
 		</select>
 		<input type="submit" id="buscar" name="buscarEstacionamento" value="🔍">
 	</form>
@@ -92,81 +101,85 @@ include_once 'php/conexao.php';
 					 <div class="row">
                 <?php
 
+                if(!isset($_POST['buscarEstacionamento'])) {
+                    exit;
+                }
+
+                if (!$conexao) {
+                    echo "<option>Não foi possivel abrir conexão.</option>";
+                    exit;
+                }
+
+                $sql = "SELECT sensor1,sensor2,sensor3 FROM sensoresNovo WHERE lugar=?";
+                $stmt = mysqli_stmt_init($conexao);
+                //checa se é possivel executar declaracao
+                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                    echo "Erro SQL";
+                    exit;
+                }
+
+                mysqli_stmt_bind_param($stmt, "s", $_POST['estacionamentos']);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_store_result($stmt);
+                if (mysqli_stmt_num_rows($stmt) <= 0) {
+                    echo "Estacionamento Inteligente não implementado: " . $_POST['estacionamentos'];
+                    exit;
+                }
+
+                $stmt = mysqli_stmt_init($conexao);
 
 
-					//<section class="4u">
-						//<span><img src="images/Ocupado.jpg"></span>
-						//<h3>A2</h3>
-						//<a class="button button-style1 style="background-color: #e82e2e">Ocupado</a>
-					//</section>
-					//<section class="4u">
-						//<span><img src="images/Livre.jpg"></span>
-						//<h3>A3</h3>
-						//<a class="button button-style1">Livre</a>
-					//</section>
-					if(isset($_POST['buscarEstacionamento'])){
-					if($conexao){
-						$sql = "SELECT sensor1,sensor2,sensor3 FROM sensoresNovo WHERE lugar=?";
-	          $stmt = mysqli_stmt_init($conexao);
-	          //checa se é possivel executar declaracao
-	          if(mysqli_stmt_prepare($stmt,$sql)){
-	            mysqli_stmt_bind_param($stmt,"s",$_POST['estacionamentos']);
-	            mysqli_stmt_execute($stmt);
-	            mysqli_stmt_store_result($stmt);
-	            if(mysqli_stmt_num_rows($stmt) > 0){
-								 $stmt = mysqli_stmt_init($conexao);
-								  if(mysqli_stmt_prepare($stmt,$sql)){
-										mysqli_stmt_bind_param($stmt,"s",$_POST['estacionamentos']);
-									 	mysqli_stmt_execute($stmt);
-										$resultado = mysqli_stmt_get_result($stmt);
-									 if($row = mysqli_fetch_assoc($resultado)){
+                //checa se é possivel executar declaracao
+                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                    exit;
+                }
 
-                    if($row['sensor1'] < 12) {
+                mysqli_stmt_bind_param($stmt, "s", $_POST['estacionamentos']);
+                mysqli_stmt_execute($stmt);
+                $resultado = mysqli_stmt_get_result($stmt);
+                if ($row = mysqli_fetch_assoc($resultado)) {
+
+                    if ($row['sensor1'] < 12) {
                         echo '<section class="4u">';
-						    echo '<span><img src="images/Ocupado.jpg"></span>';
-						    echo '<h3>A1</h3>';
-						    echo '<a class="button button-style1" style="background-color: #e82e2e">Ocupado</a>';
-				 	    echo "</section>";
-                        } else {
-                            echo '<section class="4u">';
-						        echo '<span><img src="images/Livre.jpg"></span>';
-						        echo '<h3>A1</h3>';
-						        echo '<a class="button button-style1">Livre</a>';
-				 	        echo "</section>";
-                        }
-                    if($row['sensor2'] < 12) {
+                        echo '<span><img src="images/Ocupado.jpg" alt="oucupado"></span>';
+                        echo '<h3>A1</h3>';
+                        echo '<a class="button button-style1" style="background-color: #e82e2e">Ocupado</a>';
+                        echo "</section>";
+                    } else {
                         echo '<section class="4u">';
-						    echo '<span><img src="images/Ocupado.jpg"></span>';
-						    echo '<h3>A2</h3>';
-						    echo '<a class="button button-style1" style="background-color: #e82e2e">Ocupado</a>';
-				 	    echo "</section>";
-                        } else {
-                            echo '<section class="4u">';
-						        echo '<span><img src="images/Livre.jpg"></span>';
-						        echo '<h3>A2</h3>';
-						        echo '<a class="button button-style1">Livre</a>';
-				 	        echo "</section>";
-                        }
-                    if($row['sensor3'] < 12) {
+                        echo '<span><img src="images/Livre.jpg" alt="livre"></span>';
+                        echo '<h3>A1</h3>';
+                        echo '<a class="button button-style1">Livre</a>';
+                        echo "</section>";
+                    }
+                    if ($row['sensor2'] < 12) {
                         echo '<section class="4u">';
-						    echo '<span><img src="images/Ocupado.jpg"></span>';
-						    echo '<h3>A3</h3>';
-						    echo '<a class="button button-style1" style="background-color: #e82e2e">Ocupado</a>';
-				 	    echo "</section>";
-                        } else {
-                            echo '<section class="4u">';
-						        echo '<span><img src="images/Livre.jpg"></span>';
-						        echo '<h3>A3</h3>';
-						        echo '<a class="button button-style1">Livre</a>';
-				 	        echo "</section>";
-                        }
-											}
-				}
-			} else echo "Estacionamento Inteligente não implementado: ".$_POST['estacionamentos'];
-		} else echo "Erro SQL";
-	}
-}
-				 ?>
+                        echo '<span><img src="images/Ocupado.jpg" alt="oucupado"></span>';
+                        echo '<h3>A2</h3>';
+                        echo '<a class="button button-style1" style="background-color: #e82e2e">Ocupado</a>';
+                        echo "</section>";
+                    } else {
+                        echo '<section class="4u">';
+                        echo '<span><img src="images/Livre.jpg" alt="livre"></span>';
+                        echo '<h3>A2</h3>';
+                        echo '<a class="button button-style1">Livre</a>';
+                        echo "</section>";
+                    }
+                    if ($row['sensor3'] < 12) {
+                        echo '<section class="4u">';
+                        echo '<span><img src="images/Ocupado.jpg" alt="oucupado"></span>';
+                        echo '<h3>A3</h3>';
+                        echo '<a class="button button-style1" style="background-color: #e82e2e">Ocupado</a>';
+                        echo "</section>";
+                    } else {
+                        echo '<section class="4u">';
+                        echo '<span><img src="images/Livre.jpg" alt="livre"></span>';
+                        echo '<h3>A3</h3>';
+                        echo '<a class="button button-style1">Livre</a>';
+                        echo "</section>";
+                    }
+                }
+                ?>
 			 </div>
 			</div>
 		</div>
